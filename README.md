@@ -67,7 +67,7 @@ pytest
     ```
 
 ##### レスポンス
-    ```javascript
+    ```bash
     {
         "solved" : true,
         "grid" : [
