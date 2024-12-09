@@ -67,7 +67,7 @@ pytest
     ```
 
 ##### レスポンス
-    ```json
+    ```javascript
     {
         "solved" : true,
         "grid" : [
