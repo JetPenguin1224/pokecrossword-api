@@ -32,6 +32,61 @@ def test_post_solve_basic_puzzle():
     assert data["grid"] == [
         ["ピ", "カ", "チ", "ュ", "ウ", "#"]
     ]
+def test_post_solve_no_solution():
+    # 入力用のテスト用JSON
+    test_input = {
+        "dimensions": {"rows": 1, "cols": 6},
+        "binaryGrid": [
+            [1,1,1,1,1,0]
+        ],
+        "charGrid": [
+            ["ン", "カ", "", "", "", ""]
+        ]
+    }
+    
+    response = client.post("/solve", json=test_input)
+    assert response.status_code == 200
+    
+    data = response.json()
+    assert "solved" in data
+    assert data["solved"] is False
+    
+def test_post_solve_large_puzzle():
+    # 入力用のテスト用JSON
+    test_input = {
+        "dimensions": {"rows": 5, "cols": 5},
+        "binaryGrid": [
+            [1, 1, 1, 1, 1],
+            [1, 0, 1, 0, 1],
+            [1, 1, 1, 1, 1],
+            [1, 0, 1, 0, 1],
+            [1, 1, 1, 1, 1]
+        ],
+        "charGrid": [
+            ["", "", "", "", "デ"],
+            ["",  "", "", "", ""],
+            ["", "", "", "", ""],
+            ["", "", "", "", ""],
+            ["", "", "", "", ""]
+        ]
+    }
+    
+    response = client.post("/solve", json=test_input)
+    assert response.status_code == 200
+    
+    data = response.json()
+    assert "solved" in data
+    assert data["solved"] is True
+    assert "grid" in data
+    assert len(data["grid"]) == 5
+    assert len(data["grid"][0]) == 5
+    assert data["grid"] == [
+        ["ド", "ヒ", "ド", "イ", "デ"],
+        ["ー",  "#", "ダ", "#", "ィ"],
+        ["ド", "サ", "イ", "ド", "ン"],
+        ["リ", "#", "ト", "#", "ル"],
+        ["オ", "ム", "ス", "タ", "ー"]
+    ]
 
 def test_post_solve_without_dimensions():
     # dimensions がない
