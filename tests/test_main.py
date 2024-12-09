@@ -11,7 +11,7 @@ def test_get_root():
 def test_post_solve_basic_puzzle():
     # 入力用のテスト用JSON
     test_input = {
-        "dimensions": {"rows": 6, "cols": 1},
+        "dimensions": {"rows": 1, "cols": 6},
         "binaryGrid": [
             [1,1,1,1,1,0]
         ],
@@ -80,3 +80,22 @@ def test_post_solve_without_charGrid():
     data = response.json()
     assert "detail" in data
     assert any("charGrid" in str(err.get("loc", "")) for err in data["detail"])
+    
+def test_post_solve_mismatched_dimensions():
+    # dimensionsは2x2だがcharGridが2x3になっている
+    payload = {
+        "dimensions": {"rows": 2, "cols": 2},
+        "binaryGrid": [
+            [0, 0],
+            [0, 0]
+        ],
+        "charGrid": [
+            ["", "", ""],
+            ["", "", ""]
+        ]
+    }
+    response = client.post("/solve", json=payload)
+    assert response.status_code == 400
+    data = response.json()
+    assert "detail" in data
+    assert "mismatched" in data["detail"].lower()
