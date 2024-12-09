@@ -2,6 +2,8 @@
 # pokecrossword-api
 
 FastAPIを使用して構築されたAPIサーバーです。ポケモンの名前限定のクロスワードパズルの解決を行います。
+このAPIを使用して作成したWebアプリはこちらです。
+https://pokecrossword-front.vercel.app/
 
 #### セットアップ
 
