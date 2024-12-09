@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from app.schemas import SolveRequest
+from app.utils import solve_pokecrossword
 
 app = FastAPI()
 
@@ -11,6 +12,9 @@ def read_root():
 def solve_puzzle(payload: SolveRequest):
     rows = payload.dimensions.rows
     cols = payload.dimensions.cols
+    binaryGrid = payload.binaryGrid
+    charGrid = payload.charGrid
+    pokemon_names = "data/pokemon_names.json"
 
     # binaryGridのサイズチェック
     if len(payload.binaryGrid) != rows or any(len(row) != cols for row in payload.binaryGrid):
@@ -21,9 +25,9 @@ def solve_puzzle(payload: SolveRequest):
         raise HTTPException(status_code=400, detail="Grid dimensions mismatched: charGrid")
     # ここで本来はpayloadを解析してパズルを解く処理が入るが、
     # 今はテストを通すために決め打ちでレスポンスを返す
-    return {
-        "solved": True,
-        "grid": [
-            ["ピ", "カ", "チ", "ュ", "ウ", "#"]
-        ]
+    result = solve_pokecrossword(rows, cols, binaryGrid, charGrid, pokemon_names)
+    if result is not None:
+        return {"solved": True, "grid": result}
+    else:
+        return {"solved": False
     }
