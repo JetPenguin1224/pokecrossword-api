@@ -12,12 +12,16 @@ certifi==2024.8.30
     # via
     #   httpcore
     #   httpx
+click==8.1.7
+    # via uvicorn
 fastapi==0.115.6
     # via pokecrossword-api (pyproject.toml)
 gunicorn==23.0.0
     # via pokecrossword-api (pyproject.toml)
 h11==0.14.0
-    # via httpcore
+    # via
+    #   httpcore
+    #   uvicorn
 httpcore==1.0.7
     # via httpx
 httpx==0.28.1
@@ -60,3 +64,5 @@ typing-extensions==4.12.2
     #   fastapi
     #   pydantic
     #   pydantic-core
+uvicorn==0.32.1
+    # via pokecrossword-api (pyproject.toml)
