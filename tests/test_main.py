@@ -32,3 +32,51 @@ def test_post_solve_basic_puzzle():
     assert data["grid"] == [
         ["ピ", "カ", "チ", "ュ", "ウ", "#"]
     ]
+
+def test_post_solve_without_dimensions():
+    # dimensions がない
+    invalid_payload = {
+        "binaryGrid": [
+            [0, 0],
+            [0, 0]
+        ],
+        "charGrid": [
+            ["", ""],
+            ["", ""]
+        ]
+    }
+    response = client.post("/solve", json=invalid_payload)
+    assert response.status_code == 422
+    data = response.json()
+    assert "detail" in data
+    assert any("dimensions" in str(err.get("loc", "")) for err in data["detail"])
+    
+def test_post_solve_without_binaryGrid():
+    # binaryGrid がない
+    invalid_payload = {
+        "dimensions": {"rows": 2, "cols": 2},
+        "charGrid": [
+            ["", ""],
+            ["", ""]
+        ]
+    }
+    response = client.post("/solve", json=invalid_payload)
+    assert response.status_code == 422
+    data = response.json()
+    assert "detail" in data
+    assert any("binaryGrid" in str(err.get("loc", "")) for err in data["detail"])
+    
+def test_post_solve_without_charGrid():
+    # charGrid がない
+    invalid_payload = {
+        "dimensions": {"rows": 2, "cols": 2},
+        "binaryGrid": [
+            [0, 0],
+            [0, 0]
+        ]
+    }
+    response = client.post("/solve", json=invalid_payload)
+    assert response.status_code == 422
+    data = response.json()
+    assert "detail" in data
+    assert any("charGrid" in str(err.get("loc", "")) for err in data["detail"])

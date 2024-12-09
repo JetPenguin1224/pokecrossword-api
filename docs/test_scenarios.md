@@ -1,40 +1,23 @@
 # Test Scenarios
 
-1. **GET /**  
-   - When accessing the root endpoint (GET /), it should return HTTP 200 with a JSON payload:
+## GET /  
+- When accessing the root endpoint (GET /), it should return HTTP 200 with a JSON payload:
      ```json
      {
        "message": "Hello World! This is pokemon crossword solver!"
      }
      ```
-2. **POST /solve**
-    - Input: A well-formed crossword puzzle JSON, for example:
-    ```json
-    {
-        "dimensions": {
-            "rows": 1,
-            "cols": 6
-        },
-        "binaryGrid": [
-            [1, 1, 1, 1, 1, 0]
-        ],
-        "charGrid": [
-            ["ピ","カ","","","",""]
-        ]
-    }
-    ```
+## POST /solve with simple valid JSON
+- Input: A well-formed crossword puzzle JSON
     - Output:
         - The The response should be HTTP 200 OK.
-        - The response JSON should be something like:
-        ```json
-        {
-        "solved": true,
-        "grid": [
-        ["ピ","カ","チ","ュ","ウ"
-        ]
-        ]
-        }
+        - The response JSON should be something
 
-        ```
+## POST /solve with invalid JSON
+- Input: A JSON payload that is missing required fields. For instance, omit "dimensions"
+    - Output: 
+        - The response should return a 422 Unprocessable Entity status code
+        - The response JSON should contain a validation error detail indicating that "dimensions" is missing.
+
 
 
