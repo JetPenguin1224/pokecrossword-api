@@ -1,12 +1,8 @@
 # Test Scenarios
 
 ## GET /  
-- When accessing the root endpoint (GET /), it should return HTTP 200 with a JSON payload:
-     ```json
-     {
-       "message": "Hello World! This is pokemon crossword solver!"
-     }
-     ```
+- When accessing the root endpoint (GET /), it should return HTTP 200 with a greeting message JSON
+ 
 ## POST /solve with simple valid JSON
 - Input: A well-formed crossword puzzle JSON
     - Output:
@@ -22,6 +18,8 @@
     - Output:
         - The endpoint should return HTTP 400 (Bad Request) because the grids do not match the specified dimensions.
         - The response JSON should include an error message explaining the mismatch.
+
+    
 
 
 
