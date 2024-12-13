@@ -23,8 +23,7 @@ def solve_puzzle(payload: SolveRequest):
     # charGridのサイズチェック
     if len(payload.charGrid) != rows or any(len(row) != cols for row in payload.charGrid):
         raise HTTPException(status_code=400, detail="Grid dimensions mismatched: charGrid")
-    # ここで本来はpayloadを解析してパズルを解く処理が入るが、
-    # 今はテストを通すために決め打ちでレスポンスを返す
+    
     result = solve_pokecrossword(rows, cols, binaryGrid, charGrid, pokemon_names)
     if result is not None:
         return {"solved": True, "grid": result}
